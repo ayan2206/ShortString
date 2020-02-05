@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="newStyle.css" rel="stylesheet">
+
+    <script src="newScript.js"></script>
+
+</head>
+
+<body>
+
+    <!-- <div>Which one do you want to review </div> -->
+
+    <table>
+        <tr>
+            <label>Which one do you want to review </label>       
+        </tr>
+        <tr>
+            <td>
+                <select id="chooseOption">
+                    <option value="" disabled selected hidden>Choose your option</option>
+                </select>
+            </td>
+            <td>
+                <button type="button" onclick="buttonClick()">Show</button>
+            </td>
+        </tr>
+    </table>
+
+    <div id="mainBody"></div>
+
+    <!-- <select id="chooseOption">
+        <option value="" disabled selected hidden>Choose your option</option>
+    </select> -->
+
+
+
+</body>
+
+
+<script>
+    var configJSON = [
+        {
+        "title": "one",
+        "itemId": "1"
+        },
+        {
+        "title": "two",
+        "itemId": "2"
+        },
+        {
+        "title": "three",
+        "itemId": "3"
+        },
+        {
+        "title": "four",
+        "itemId": "4"
+        }
+    ]
+
+    var select = document.getElementById("chooseOption");
+    configJSON.forEach(element => {
+        select.options[select.options.length] = new Option(element.title, element.itemId)
+        console.log(element.title)
+    });
+
+    function buttonClicks() {
+        var selectedItem = document.getElementById("chooseOption")
+        var val = selectedItem.nodeValue
+        console.log(selectedItem)
+    }
+
+</script>
+
+</html>
