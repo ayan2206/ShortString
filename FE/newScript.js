@@ -8,12 +8,13 @@ class Item {
 
 function buttonClick() {
     var select = document.getElementById("chooseOption")
-    var val = select.options[select.selectedIndex].value
-    console.log(val)
+    var selectedOption = select.options[select.selectedIndex].value
+    console.log(selectedOption)
+
 
     var dataSource = []
 
-    var urlStr = 'http://127.0.0.1:5000/todo/api/v1.0/tasks/'
+    var urlStr = 'http://127.0.0.1:5000/shortString/missingShortStrings/?categoryType=' + selectedOption
     var request = new XMLHttpRequest()
     request.open('GET', urlStr, true)
     request.onload = function() {
@@ -21,6 +22,12 @@ function buttonClick() {
         var data = JSON.parse(this.response)
 
         var mainBody = document.getElementById("mainBody")
+        var myTable = document.getElementById("myTable")
+
+        if(myTable){
+            mainBody.removeChild(myTable)
+        }
+
         var table = document.createElement("TABLE")
         table.setAttribute("id", "myTable");
         mainBody.appendChild(table)
