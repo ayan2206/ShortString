@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-cors = CORS(app, resources={r"/todo/api/v1.0/tasks/": {"origins": "127.0.0.1:5000"}})
+cors = CORS(app, resources={r"/shortString/missingShortStrings/": {"origins": "127.0.0.1:5000"}})
 
 tasks = [
     {
@@ -27,13 +27,23 @@ tasks = [
     }
 ]
 
-query = 'SELECT ?item ?itemLabel \
+query1 = 'SELECT ?item ?itemLabel \
 WHERE \
 {\
   ?item wdt:P31 wd:Q146.\
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }\
 }\
 LIMIT 10'
+
+query_part_one = 'SELECT ?item ?itemLabel \
+WHERE \
+{\
+  ?item wdt:P31 wd:'
+
+query_part_two = '. SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }\
+}\
+LIMIT 10'
+
 
 test_url = 'http://www.reddit.com/user/spilcm/about/.json'
 # test_url = 'http://dummy.restapiexample.com/api/v1/employees'
@@ -53,10 +63,31 @@ class Item:
                 "itemUrl": self.item_url}
 
 
-@app.route('/todo/api/v1.0/tasks/', methods=['GET'])
+@app.route('/shortString/missingShortStrings/', methods=['GET'])
 def get_tasks():
 
     print("entering here")
+
+    type = ''
+    if 'categoryType' in request.args:
+        type = request.args['categoryType']
+        print(type)
+    else:
+        return "Error: No categoryType provided. Please select a valid categoryType."
+
+    print("creating query--------")
+    print("one", query_part_one)
+    print("two", query_part_two)
+    # query = 'SELECT ?item ?itemLabel \
+    #         WHERE \
+    #         {\
+    #           ?item wdt:P31 wd:{}.\
+    #           SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }\
+    #         }\
+    #         LIMIT 10'.format(type)
+
+    query = query_part_one + type + query_part_two
+
     print(query)
 
     # response = requests.get("https://query.wikidata.org/#"+query)
